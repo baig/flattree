@@ -1,5 +1,3 @@
-import extend from './extend';
-
 class Node {
     id = null;
     parent = null;
@@ -7,7 +5,7 @@ class Node {
     state = {};
 
     constructor(node) {
-        extend(this, node);
+        Object.assign(this, node);
 
         this.children = this.children || [];
     }

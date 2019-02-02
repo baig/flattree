@@ -1,5 +1,4 @@
 /* eslint no-console: 0 */
-import extend from './extend';
 import Node from './node';
 
 // @param {object|array} nodes The tree nodes
@@ -8,7 +7,7 @@ import Node from './node';
 // @param {array} [options.openNodes] An array that contains the ids of open nodes
 // @return {array}
 const flatten = (nodes = [], options = {}) => {
-    nodes = [].concat(nodes);
+    nodes = [].concat(nodes); // constructing a new array instance
 
     const flatten = [];
     const stack = [];
@@ -125,7 +124,7 @@ const flatten = (nodes = [], options = {}) => {
             }
 
             // This allows you to put extra information to node.state
-            node.state = extend({}, node.state, {
+            node.state = Object.assign({}, node.state, {
                 depth: depth + 1,
                 open: open,
                 path: path,

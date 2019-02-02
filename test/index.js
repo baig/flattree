@@ -2,9 +2,7 @@ import _ from 'lodash';
 import { test } from 'tap';
 import fs from 'fs';
 import path from 'path';
-import util from 'util';
 import pad from 'lodash/pad';
-import extend from '../src/extend';
 import flatten from '../src/flatten';
 import Node from '../src/node';
 
@@ -12,9 +10,9 @@ const fixtures = {
     tree: fs.readFileSync(path.resolve(__dirname, 'fixtures/tree.json'))
 };
 
-test('[extend] Cannot convert undefined or null to object', (t) => {
+test('[Object.assign] Cannot convert undefined or null to object', (t) => {
     try {
-        extend(null);
+        Object.assign(null);
     } catch (err) {
         t.same(err, new TypeError('Cannot convert undefined or null to object'));
     }
@@ -228,13 +226,13 @@ test('[flatten] Nested hierarchies', (t) => {
             found = found + label + ' (' + path + ')' + '\n';
             return;
         }
-        
+
         const prefix = prefixMask.substr(1).split('')
             .map(s => (Number(s) === 0) ? '  ' : '| ')
             .join('');
 
-        found = found + 
-            prefix + 
+        found = found +
+            prefix +
             (node.isLastChild() ? '└' : '├') + '─' +
             (node.hasChildren() && open ? '┬' : '─') + ' ' +
             label +
@@ -272,7 +270,7 @@ test('[flatten] Single root node', (t) => {
     flatten(tree, { openNodes: openNodes }).forEach((node, index) => {
         const { label = '', state = {}, children = [] } = node;
         const { open } = state;
-      
+
         let padding = pad('', state.depth * 2, ' ');
         if (node.hasChildren() && open) {
             padding += '- ';
@@ -314,7 +312,7 @@ test('[flatten] Multiple root nodes', (t) => {
     flatten(tree.children, { openNodes: openNodes }).forEach((node, index) => {
         const { label = '', state = {}, children = [] } = node;
         const { open } = state;
-      
+
         let padding = pad('', state.depth * 2, ' ');
         if (node.hasChildren() && open) {
             padding += '- ';
@@ -323,7 +321,7 @@ test('[flatten] Multiple root nodes', (t) => {
         } else {
             padding += '  ';
         }
-      
+
         found = found + padding + label + ' (' + state.path + ')' + '\n';
     });
 
